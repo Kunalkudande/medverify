@@ -1,37 +1,59 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 function HomePage() {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
+  // ✅ Handle Image Selection
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
-      setImagePreview(URL.createObjectURL(file)); // Create a preview URL for the image
+      setImagePreview(URL.createObjectURL(file)); // Generate preview
     }
   };
 
+  // ✅ Send Image to Backend API for Prediction
   const handleCheckImage = async () => {
+    console.log("🟢 Button Clicked!");
+
     if (!image) {
-      alert("Please upload an image.");
+      alert("⚠ Please upload an image first.");
       return;
     }
 
     const formData = new FormData();
-    formData.append('image', image);
+    formData.append("file", image); // FastAPI expects "file"
+
+    console.log("📤 Sending image to API...");
+    setLoading(true);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/predict', {
-        method: 'POST',
+      const response = await fetch("http://127.0.0.1:8080/predict/", {
+        method: "POST",
         body: formData,
       });
+
+      console.log("✅ API Response Status:", response.status);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
       const data = await response.json();
-      setResult(data.result); // "Real" or "Fake"
+      console.log("📥 Data received from API:", data);
+
+      setResult({
+        prediction: data.prediction || "Unknown",
+        confidence: data.confidence || 0,
+      });
     } catch (error) {
-      console.error(error);
-      alert("Error occurred while checking the image.");
+      console.error("❌ API Error:", error);
+      alert("Error: Could not process the image.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -41,14 +63,16 @@ function HomePage() {
       <p className="mb-4 text-gray-600 text-center">
         Upload a medical image to verify its authenticity.
       </p>
+
+      {/* ✅ Image Upload Input */}
       <input
         type="file"
         accept="image/*"
         onChange={handleImageUpload}
         className="mb-4 border p-2 rounded"
       />
-      
-      {/* Display the image preview if an image is selected */}
+
+      {/* ✅ Image Preview */}
       {imagePreview && (
         <div className="mb-4">
           <p className="text-gray-600">Selected Image:</p>
@@ -60,19 +84,32 @@ function HomePage() {
         </div>
       )}
 
+      {/* ✅ Check Image Button */}
       <button
         onClick={handleCheckImage}
-        className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+        disabled={loading}
+        className={`bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 ${
+          loading ? "opacity-50 cursor-not-allowed" : ""
+        }`}
       >
-        Check Image
+        {loading ? "Checking..." : "Check Image"}
       </button>
 
-      {/* Display the prediction result */}
+      {/* ✅ Display Prediction Result */}
       {result && (
         <div className="mt-6 text-center">
           <h3 className="text-xl">Prediction Result:</h3>
-          <p className={`text-2xl font-bold ${result === 'Fake' ? 'text-red-500' : 'text-green-500'}`}>
-            {result}
+          <p
+            className={`text-2xl font-bold ${
+              result.prediction.includes("Malicious")
+                ? "text-red-500"
+                : "text-green-500"
+            }`}
+          >
+            {result.prediction}{" "}
+            <span className="text-gray-600">
+              ({(result.confidence * 100).toFixed(2)}% confidence)
+            </span>
           </p>
         </div>
       )}
