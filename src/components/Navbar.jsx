@@ -1,7 +1,11 @@
 import React from "react";
-import logo from '../images/logo.webp';
+import { Link } from "react-router-dom";
+import logo from "../images/logo.webp"
+import { useAuth } from "../components/AuthContext"; // Import the AuthContext
 
 const Navbar = ({ scrollToSection, refs }) => {
+  const { user, logout } = useAuth(); // Get user state and logout function
+
   const handleLogoClick = () => {
     window.location.reload(); // Refresh the page when the logo or website name is clicked
   };
@@ -42,11 +46,26 @@ const Navbar = ({ scrollToSection, refs }) => {
         </button>
       </div>
 
-      {/* Contact Us Button */}
-      <div>
-        <button className="px-6 py-3 bg-yellow-400 text-black font-semibold rounded-lg shadow-md hover:bg-yellow-500 transition-all duration-300">
-          Contact Us
-        </button>
+      {/* SignUp/SignIn or Username & Logout */}
+      <div className="flex gap-4">
+        {!user ? (
+          <>
+            <Link to="/signup">
+              <button className="px-6 py-3 bg-yellow-400 text-black font-semibold rounded-lg shadow-md hover:bg-yellow-500">
+                SignUp
+              </button>
+            </Link>
+          </>
+        ) : (
+          <>
+            <span className="text-lg font-semibold text-green-600">{user.name}</span>
+            <button
+              onClick={() => logout()}
+              className="px-6 py-3 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700">
+              Logout
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );

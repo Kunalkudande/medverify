@@ -29,13 +29,13 @@ const ApiSection = () => {
         <pre className="bg-gray-900 text-left text-green-400 p-4 rounded-lg overflow-auto text-sm">
           <code>
             {`curl --location --request POST \\
-'https://app.resemble.ai/api/v2/detect' \\
---header 'x-access-token: YOURACCESSTOKEN' \\
---header 'Content-Type: application/json' \\
---data-raw '{
-  "audio_src": "https://resemble-detect.s3.us-east-2.amazonaws.com/example.wav",
-  "mode": "label"
-}'`}
+              'https://app.resemble.ai/api/v2/detect' \\
+              --header 'x-access-token: YOURACCESSTOKEN' \\
+              --header 'Content-Type: application/json' \\
+              --data-raw '{
+                "audio_src": "https://resemble-detect.s3.us-east-2.amazonaws.com/example.wav",
+                "mode": "label"
+              }'`}
           </code>
         </pre>
       </div>

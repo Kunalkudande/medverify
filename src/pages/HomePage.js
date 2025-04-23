@@ -6,7 +6,7 @@ function HomePage() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // ✅ Handle Image Selection
+  // Handle Image Selection
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -15,19 +15,19 @@ function HomePage() {
     }
   };
 
-  // ✅ Send Image to Backend API for Prediction
+  // Send Image to Backend API for Prediction
   const handleCheckImage = async () => {
-    console.log("🟢 Button Clicked!");
+    console.log("Button Clicked!");
 
     if (!image) {
-      alert("⚠ Please upload an image first.");
+      alert("Please upload an image first.");
       return;
     }
 
     const formData = new FormData();
     formData.append("file", image); // FastAPI expects "file"
 
-    console.log("📤 Sending image to API...");
+    console.log("Sending image to API...");
     setLoading(true);
 
     try {
@@ -36,21 +36,21 @@ function HomePage() {
         body: formData,
       });
 
-      console.log("✅ API Response Status:", response.status);
+      console.log("API Response Status:", response.status);
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
       const data = await response.json();
-      console.log("📥 Data received from API:", data);
+      console.log("Data received from API:", data);
 
       setResult({
         prediction: data.prediction || "Unknown",
         confidence: data.confidence || 0,
       });
     } catch (error) {
-      console.error("❌ API Error:", error);
+      console.error("API Error:", error);
       alert("Error: Could not process the image.");
     } finally {
       setLoading(false);
@@ -64,7 +64,7 @@ function HomePage() {
         Upload a medical image to verify its authenticity.
       </p>
 
-      {/* ✅ Image Upload Input */}
+      {/*Image Upload Input */}
       <input
         type="file"
         accept="image/*"
@@ -72,7 +72,7 @@ function HomePage() {
         className="mb-4 border p-2 rounded"
       />
 
-      {/* ✅ Image Preview */}
+      {/*Image Preview */}
       {imagePreview && (
         <div className="mb-4">
           <p className="text-gray-600">Selected Image:</p>
@@ -84,7 +84,7 @@ function HomePage() {
         </div>
       )}
 
-      {/* ✅ Check Image Button */}
+      {/*Check Image Button */}
       <button
         onClick={handleCheckImage}
         disabled={loading}
@@ -95,7 +95,7 @@ function HomePage() {
         {loading ? "Checking..." : "Check Image"}
       </button>
 
-      {/* ✅ Display Prediction Result */}
+      {/*Display Prediction Result */}
       {result && (
         <div className="mt-6 text-center">
           <h3 className="text-xl">Prediction Result:</h3>
