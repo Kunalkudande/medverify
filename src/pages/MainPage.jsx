@@ -9,11 +9,12 @@ const MainPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const [selectedType, setSelectedType] = useState("chest"); // Type state
   const navigate = useNavigate();
 
+  // Handle image upload
   const handleImageUpload = (event) => {
     const user = JSON.parse(localStorage.getItem("user"));
-
     if (!user) {
       alert("Please sign up before uploading an image.");
       navigate("/signup");
@@ -29,6 +30,7 @@ const MainPage = () => {
     }
   };
 
+  // Handle image detection
   const handleDetect = async () => {
     if (!imageFile) {
       alert("Please upload an image first.");
@@ -37,6 +39,7 @@ const MainPage = () => {
 
     const formData = new FormData();
     formData.append("file", imageFile);
+    formData.append("model_type", selectedType); // Send model type
 
     setLoading(true);
     setResult(null);
@@ -47,14 +50,18 @@ const MainPage = () => {
         body: formData,
       });
 
-      const data = await response.json();
-      setResult({
-        prediction: data.prediction || "Unknown",
-        description: data.description || "Unknown",
-        confidence: data.confidence || 0,
-      });
+      if (response.ok) {
+        const data = await response.json();
+        setResult({
+          prediction: data.prediction || "Unknown",
+          description: data.description || "Unknown",
+          confidence: data.confidence || 0,
+        });
+      } else {
+        throw new Error("Error: Could not process the image.");
+      }
     } catch (error) {
-      alert("Error: Could not process the image.");
+      alert(error.message);
     } finally {
       setLoading(false);
     }
@@ -86,6 +93,23 @@ const MainPage = () => {
             <h2 className="text-2xl font-semibold mb-4 text-green-400">
               Upload an Image
             </h2>
+
+            {/* Image Type Selection */}
+            <div className="mb-4">
+              <label className="block mb-1 text-sm font-medium text-gray-300">
+                Select Image Type:
+              </label>
+              <select
+                value={selectedType}
+                onChange={(e) => setSelectedType(e.target.value)}
+                className="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-green-600 focus:outline-none"
+              >
+                <option value="chest">Lungs CT Scan</option>
+                <option value="knee">Knee Scan</option>
+              </select>
+            </div>
+
+            {/* Image Upload Button */}
             <label
               htmlFor="imageUpload"
               className="flex flex-col items-center justify-center border border-dashed border-green-600 p-6 rounded-md cursor-pointer hover:bg-gray-700 transition"
@@ -103,6 +127,8 @@ const MainPage = () => {
                 className="hidden"
               />
             </label>
+
+            {/* Display image preview */}
             {image && (
               <div className="mt-6 text-center">
                 <p className="mb-4 text-green-400 font-semibold">
@@ -119,6 +145,7 @@ const MainPage = () => {
         </div>
       </section>
 
+      {/* Show Popup for Result */}
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-gray-800 text-white p-8 rounded-lg shadow-lg max-w-md text-center">
@@ -133,56 +160,53 @@ const MainPage = () => {
               />
             </div>
             {result ? (
-  <div className="mt-4 text-center">
-    <h3 className="text-xl font-semibold">Prediction:</h3>
-    <p
-      className={`text-2xl font-bold ${
-        result.prediction.includes("Malicious")
-          ? "text-red-500"
-          : "text-green-500"
-      }`}
-    >
-      {result.prediction}
-            </p>
-            <h3 className="text-xl font-semibold">Description:</h3>
-            <p
-              className={`text-2xl font-bold ${
-                result.prediction.includes("Malicious")
-                  ? "text-red-500"
-                  : "text-green-500"
-              }`}
-            >
-              {result.description}
-            </p>
-            <p className="text-gray-300">
-              Confidence: {(result.confidence * 100).toFixed(2)}%
-            </p>
-
-            {/* Close Button */}
-            <button
-              onClick={() => setShowPopup(false)}
-              className="mt-6 px-4 py-2 bg-gray-600 text-white font-semibold rounded-md hover:bg-gray-700 shadow-lg transition"
-            >
-              Close
-            </button>
-          </div>
-        ) : (
-          <>
-            <p className="text-gray-300 mb-6">
-              Your image is uploaded successfully. Click below to detect!
-            </p>
-            <button
-              onClick={handleDetect}
-              disabled={loading}
-              className={`px-6 py-3 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 shadow-lg transition ${
-                loading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              {loading ? "Detecting..." : "Detect"}
-            </button>
-          </>
-        )}
-
+              <>
+                <h3 className="text-xl font-semibold">Prediction:</h3>
+                <p
+                  className={`text-2xl font-bold ${
+                    result.prediction.includes("Malicious")
+                      ? "text-red-500"
+                      : "text-green-500"
+                  }`}
+                >
+                  {result.prediction}
+                </p>
+                <h3 className="text-xl font-semibold">Description:</h3>
+                <p
+                  className={`text-2xl font-bold ${
+                    result.prediction.includes("Malicious")
+                      ? "text-red-500"
+                      : "text-green-500"
+                  }`}
+                >
+                  {result.description}
+                </p>
+                <p className="text-gray-300">
+                  Confidence: {(result.confidence * 100).toFixed(2)}%
+                </p>
+                <button
+                  onClick={() => setShowPopup(false)}
+                  className="mt-6 px-4 py-2 bg-gray-600 text-white font-semibold rounded-md hover:bg-gray-700 shadow-lg transition"
+                >
+                  Close
+                </button>
+              </>
+            ) : (
+              <>
+                <p className="text-gray-300 mb-6">
+                  Your image is uploaded successfully. Click below to detect!
+                </p>
+                <button
+                  onClick={handleDetect}
+                  disabled={loading}
+                  className={`px-6 py-3 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 shadow-lg transition ${
+                    loading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {loading ? "Detecting..." : "Detect"}
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}

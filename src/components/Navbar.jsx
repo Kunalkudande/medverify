@@ -1,13 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../images/logo.webp"
+import logo from "../images/logo.webp";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/AuthContext"; // Import the AuthContext
 
 const Navbar = ({ scrollToSection, refs }) => {
+  const navigate = useNavigate();
   const { user, logout } = useAuth(); // Get user state and logout function
 
   const handleLogoClick = () => {
-    window.location.reload(); // Refresh the page when the logo or website name is clicked
+    navigate("/");
   };
 
   return (
