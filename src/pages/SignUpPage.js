@@ -9,15 +9,36 @@ const SignupPage = () => {
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Signup data:", formData);
-    
-    // Simulate successful signup
-    login({ name: formData.name, email: formData.email });  // Set user data in context
-    alert("Signup successful!");
-    navigate("/");
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const res = await fetch("http://localhost:5000/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+
+      // ✅ Store token and user in localStorage
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      login(data.user); // Optional: update global auth state if you're using context
+      alert("Signup successful!");
+      navigate("/");
+    } else {
+      const err = await res.json();
+      alert(err.message || "Signup failed");
+    }
+  } catch (err) {
+    alert("Error during signup.");
+  }
+};
+
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">

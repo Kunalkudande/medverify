@@ -10,15 +10,30 @@ const SigninPage = () => {
   const handleChange = (e) =>
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Signin credentials:", credentials);
-    
-    // Simulate successful signin
-    login({ name: "John Doe", email: credentials.email });  // Set user data in context
-    alert("Signin successful!");
-    navigate("/");
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const res = await fetch("http://localhost:5000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(credentials),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      login(data.user); // Save user in context
+      alert("Signin successful!");
+      navigate("/");
+    } else {
+      const err = await res.json();
+      alert(err.message || "Signin failed");
+    }
+  } catch (err) {
+    alert("Error during signin.");
+  }
+};
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">

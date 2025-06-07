@@ -6,8 +6,9 @@ import MainPage from "./pages/MainPage";
 import SamplesPage from "./pages/SamplesPage";
 import DetailsPage from "./pages/DetailsPage";
 import ApiSection from "./components/ApiSection";
+// import HistoryPage from "./pages/HistoryPage";
 import SignupPage from "./pages/SignUpPage";
-// import SigninPage from "./pages/SignInPage";
+import SigninPage from "./pages/SignInPage";
 import { AuthProvider } from "./components/AuthContext"; // Import the AuthProvider
 
 function App() {
@@ -52,7 +53,8 @@ function App() {
                 }
               />
               <Route path="/signup" element={<SignupPage />} />
-              {/* <Route path="/signin" element={<SigninPage />} /> */}
+              <Route path="/signin" element={<SigninPage />} />
+              {/* <Route path="/history" element={<HistoryPage />} /> */}
             </Routes>
           </main>
           <Footer />

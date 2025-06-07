@@ -38,30 +38,58 @@ const MainPage = () => {
     }
 
     const formData = new FormData();
+    console.log(formData)
     formData.append("file", imageFile);
     formData.append("model_type", selectedType); // Send model type
 
     setLoading(true);
     setResult(null);
+    const user = JSON.parse(localStorage.getItem("user"));
 
     try {
-      const response = await fetch("http://127.0.0.1:8080/predict/", {
+      // Call FastAPI prediction endpoint
+      console.log("Hello")
+      const response = await fetch("http://127.0.0.1:8000/predict/", {
         method: "POST",
         body: formData,
       });
-
+      console.log(response)
       if (response.ok) {
         const data = await response.json();
+
+        // Show prediction result in UI
         setResult({
           prediction: data.prediction || "Unknown",
           description: data.description || "Unknown",
           confidence: data.confidence || 0,
         });
+        const token = localStorage.getItem("token");
+
+        // Send prediction & user info to Node.js backend for history saving
+        const uploadFormData = new FormData();
+          uploadFormData.append("file", imageFile); // The actual file
+          uploadFormData.append("modelType", selectedType);
+          uploadFormData.append("userId", user._id); // if needed
+          uploadFormData.append("prediction", JSON.stringify({
+            prediction: data.prediction,
+            description: data.description,
+            confidence: data.confidence,
+          }));
+
+          await fetch("http://localhost:5000/api/image/upload", {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${token}`,  // only auth header, NO Content-Type here!
+            },
+            body: uploadFormData,
+          });
+
+
       } else {
         throw new Error("Error: Could not process the image.");
       }
     } catch (error) {
-      alert(error.message);
+      alert("error");
     } finally {
       setLoading(false);
     }

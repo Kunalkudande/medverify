@@ -21,3 +21,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+#//npm start  frontend
+# python -m uvicorn main:app --reload --host 127.0.0.1 --port 8080
