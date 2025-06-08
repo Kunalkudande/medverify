@@ -23,6 +23,7 @@ const SigninPage = () => {
     if (res.ok) {
       const data = await res.json();
       login(data.user); // Save user in context
+      localStorage.setItem("token", data.token); 
       alert("Signin successful!");
       navigate("/");
     } else {

@@ -9,7 +9,7 @@ const MainPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
-  const [selectedType, setSelectedType] = useState("chest"); // Type state
+  const [selectedType, setSelectedType] = useState("lungs"); // Type state
   const navigate = useNavigate();
 
   // Handle image upload
@@ -132,7 +132,7 @@ const MainPage = () => {
                 onChange={(e) => setSelectedType(e.target.value)}
                 className="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-green-600 focus:outline-none"
               >
-                <option value="chest">Lungs CT Scan</option>
+                <option value="lungs">Lungs CT Scan</option>
                 <option value="knee">Knee Scan</option>
               </select>
             </div>
