@@ -13,9 +13,9 @@ const ApiSection = () => {
         Developer-First API
       </h2>
       <p className="max-w-xl text-center mb-6 text-gray-300">
-        Empower your applications to recognize deepfake audio across a myriad of
-        media types, from music to podcasts, combating AI fraud by leveraging
-        cutting-edge neural models.
+        Easily detect deepfake medical images by sending images to our API.
+        Whether you’re building healthtech tools or protecting diagnostic pipelines,
+        our FastAPI-powered backend is ready to integrate.
       </p>
       <button className="px-6 py-3 bg-yellow-400 text-black font-semibold rounded-md shadow-lg hover:bg-yellow-500 transition">
         Get API Access
@@ -28,19 +28,17 @@ const ApiSection = () => {
         </h3>
         <pre className="bg-gray-900 text-left text-green-400 p-4 rounded-lg overflow-auto text-sm">
           <code>
-            {`curl --location --request POST \\
-              'https://app.resemble.ai/api/v2/detect' \\
-              --header 'x-access-token: YOURACCESSTOKEN' \\
-              --header 'Content-Type: application/json' \\
-              --data-raw '{
-                "audio_src": "https://resemble-detect.s3.us-east-2.amazonaws.com/example.wav",
-                "mode": "label"
-              }'`}
+            {`curl -X POST \\
+  https://kunal0909-medverify-backend-prediction.hf.space/predict/ \\
+  -H "accept: application/json" \\
+  -H "Content-Type: multipart/form-data" \\
+  -F "file=@/path/to/your/image.jpg" \\
+  -F "model_type=lungs"`}
           </code>
         </pre>
       </div>
 
-      {/* Additional Decoration */}
+      {/* Decorative Divider */}
       <div className="mt-12 w-32 h-1 bg-yellow-400 rounded-md"></div>
     </div>
   );

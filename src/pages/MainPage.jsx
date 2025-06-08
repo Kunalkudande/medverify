@@ -181,43 +181,50 @@ const MainPage = () => {
             </h3>
             <div className="mb-4">
               <img
-                src={image}
-                alt="Uploaded Preview"
-                className="max-w-full h-40 object-contain border border-green-600 rounded-md shadow-md"
-              />
+              src={image}
+              alt="Uploaded Preview"
+              className="max-w-full h-40 object-contain border border-green-600 rounded-md shadow-md mx-auto"
+            />
+
             </div>
             {result ? (
               <>
-                <h3 className="text-xl font-semibold">Prediction:</h3>
-                <p
-                  className={`text-2xl font-bold ${
-                    result.prediction.includes("Malicious")
-                      ? "text-red-500"
-                      : "text-green-500"
-                  }`}
-                >
-                  {result.prediction}
-                </p>
-                <h3 className="text-xl font-semibold">Description:</h3>
-                <p
-                  className={`text-2xl font-bold ${
-                    result.prediction.includes("Malicious")
-                      ? "text-red-500"
-                      : "text-green-500"
-                  }`}
-                >
-                  {result.description}
-                </p>
-                <p className="text-gray-300">
-                  Confidence: {(result.confidence * 100).toFixed(2)}%
-                </p>
-                <button
-                  onClick={() => setShowPopup(false)}
-                  className="mt-6 px-4 py-2 bg-gray-600 text-white font-semibold rounded-md hover:bg-gray-700 shadow-lg transition"
-                >
-                  Close
-                </button>
-              </>
+  <h3 className="text-xl font-semibold">Prediction:</h3>
+  <p
+    className={`text-2xl font-bold ${
+      (selectedType === "lungs" && result.prediction.includes("Malicious")) ||
+      (selectedType === "knee" && result.prediction === "Fake")
+        ? "text-red-500"
+        : "text-green-500"
+    }`}
+  >
+    {result.prediction}
+  </p>
+
+  <h3 className="text-xl font-semibold">Description:</h3>
+  <p
+    className={`text-2xl font-bold ${
+      (selectedType === "lungs" && result.prediction.includes("Malicious")) ||
+      (selectedType === "knee" && result.prediction === "Fake")
+        ? "text-red-500"
+        : "text-green-500"
+    }`}
+  >
+    {result.description}
+  </p>
+
+  <p className="text-gray-300">
+    Confidence: {(result.confidence * 100).toFixed(2)}%
+  </p>
+
+  <button
+    onClick={() => setShowPopup(false)}
+    className="mt-6 px-4 py-2 bg-gray-600 text-white font-semibold rounded-md hover:bg-gray-700 shadow-lg transition"
+  >
+    Close
+  </button>
+</>
+
             ) : (
               <>
                 <p className="text-gray-300 mb-6">
