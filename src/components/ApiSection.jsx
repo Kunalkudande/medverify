@@ -29,11 +29,11 @@ const ApiSection = () => {
         <pre className="bg-gray-900 text-left text-green-400 p-4 rounded-lg overflow-auto text-sm">
           <code>
             {`curl -X POST \\
-  https://kunal0909-medverify-backend-prediction.hf.space/predict/ \\
-  -H "accept: application/json" \\
-  -H "Content-Type: multipart/form-data" \\
-  -F "file=@/path/to/your/image.jpg" \\
-  -F "model_type=lungs"`}
+            https://kunal0909-medverify-backend-prediction.hf.space/predict/ \\
+            -H "accept: application/json" \\
+            -H "Content-Type: multipart/form-data" \\
+            -F "file=@/path/to/your/image.jpg" \\
+            -F "model_type=lungs or knee"`}
           </code>
         </pre>
       </div>
