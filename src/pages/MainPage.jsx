@@ -164,7 +164,7 @@ const MainPage = () => {
                 <img
                   src={image}
                   alt="Uploaded preview"
-                  className="max-w-full h-auto rounded-md shadow-md border border-green-600"
+                  className="max-w-full h-40 object-contain border border-green-600 rounded-md shadow-md mx-auto"
                 />
               </div>
             )}
