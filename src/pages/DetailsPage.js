@@ -16,44 +16,69 @@ function DetailsPage() {
     {
       question: "How does this system detect medical deepfakes?",
       answer:
-        "The system uses a pre-trained EfficientNet deep learning model to analyze uploaded medical images and classify them as real or fake with high accuracy.",
+        "The system uses custom-trained CNN models to analyze uploaded medical images and classify them as real or fake with high accuracy.",
     },
     {
       question: "Can this system be used with other types of images?",
       answer:
-        "Currently, the system is optimized for detecting medical deepfakes, but it can be adapted for other image types with additional training and customization.",
+        "Currently, the system supports lungs and knee datasets, but it can be extended to other medical image types with additional model training.",
     },
     {
       question: "What kind of data is required for training the model?",
       answer:
-        "The model requires a balanced dataset of real and fake medical images for effective training. High-quality annotated data improves the system's accuracy.",
+        "Balanced and high-quality datasets of both real and fake medical images are required for effective training and better prediction performance.",
     },
     {
       question: "How secure is the uploaded data?",
       answer:
-        "Uploaded data is processed securely and not stored permanently. Privacy and security protocols ensure data confidentiality.",
+        "Uploaded data is securely transmitted and not stored permanently. Our system ensures privacy by following secure communication protocols.",
     },
   ];
 
   return (
     <div className="p-8 min-h-screen bg-gray-100">
-      {/* Project Details Section */}
-      <div className="bg-white rounded-lg shadow-lg px-12 py-8 max-w-5xl mx-auto text-center">
-        <h2 className="text-3xl font-extrabold text-blue-700 mb-6">
-          Project Details
+      {/* Project Overview Section */}
+      <div className="bg-white rounded-2xl shadow-2xl px-10 py-10 max-w-6xl mx-auto text-center">
+        <h2 className="text-4xl font-extrabold text-blue-700 mb-6">
+          MedVerify: Medical Deepfake Detection System
         </h2>
-        <p className="text-lg leading-relaxed text-gray-700">
-          Welcome to our <span className="font-semibold text-blue-600">Medical Deepfake Detection System</span>, an innovative solution leveraging the power of <span className="font-semibold">Deep Learning</span> to ensure the authenticity of medical images. This project is designed to combat the growing issue of medical deepfakes, which can mislead healthcare professionals and patients.
+        <p className="text-lg leading-relaxed text-gray-700 mb-6">
+          <span className="font-semibold text-blue-600">MedVerify</span> is a full-stack AI-powered platform designed to detect tampered or AI-generated medical images such as X-rays. By leveraging modern microservice architecture and state-of-the-art deep learning, it helps healthcare professionals verify image authenticity and reduce the risk of misdiagnosis.
         </p>
-        <div className="mt-6 space-y-4 text-left">
-          <p className="text-lg text-gray-700">
-            <span className="font-bold text-blue-600">Backend:</span> Built with Python, the system utilizes a pre-trained <span className="italic text-blue-500">EfficientNet</span> model to classify images as real or fake, ensuring high accuracy and reliability.
-          </p>
-          <p className="text-lg text-gray-700">
-            <span className="font-bold text-blue-600">Frontend:</span> A sleek, user-friendly interface developed using <span className="italic text-blue-500">React.js</span> and styled with TailwindCSS, enabling seamless image uploads and instant feedback.
-          </p>
-          <p className="text-lg text-gray-700">
-            <span className="font-bold text-blue-600">Use Case:</span> Upload medical images to verify their authenticity. The system processes and provides results in real-time, offering critical support for healthcare organizations.
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+          <div className="bg-blue-50 rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <h3 className="text-xl font-semibold text-blue-600 mb-2">🔍 Prediction Microservice</h3>
+            <p className="text-gray-700">
+              Built with <span className="font-medium text-blue-500">FastAPI</span> and Python, this service loads two custom-trained <span className="italic">CNN models</span> for lungs and knee X-rays. It handles image preprocessing and prediction.
+            </p>
+          </div>
+
+          <div className="bg-blue-50 rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <h3 className="text-xl font-semibold text-blue-600 mb-2">💾 Database Microservice</h3>
+            <p className="text-gray-700">
+              Developed using <span className="font-medium text-green-600">Node.js</span>, <span className="font-medium text-yellow-600">Express</span>, and <span className="font-medium text-teal-700">MongoDB</span>, this service securely manages user data, authentication, and image metadata.
+            </p>
+          </div>
+
+          <div className="bg-blue-50 rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <h3 className="text-xl font-semibold text-blue-600 mb-2">🧠 Model Architecture</h3>
+            <p className="text-gray-700">
+              The core deep learning models are trained using <span className="font-medium">Convolutional Neural Networks (CNNs)</span> for high accuracy on domain-specific datasets (lungs and knees).
+            </p>
+          </div>
+
+          <div className="bg-blue-50 rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <h3 className="text-xl font-semibold text-blue-600 mb-2">🌐 Frontend Interface</h3>
+            <p className="text-gray-700">
+              The user-facing interface is built with <span className="font-medium text-blue-500">React.js</span> and styled using <span className="font-medium text-indigo-500">TailwindCSS</span>. Users can register, choose the dataset type (lungs or knee), upload images, and receive predictions in real time.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-10 text-gray-800 text-md leading-relaxed">
+          <p>
+            All services communicate through robust API connections, ensuring a decoupled and scalable architecture.
           </p>
         </div>
       </div>
