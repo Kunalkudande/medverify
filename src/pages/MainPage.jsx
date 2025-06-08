@@ -189,41 +189,41 @@ const MainPage = () => {
             </div>
             {result ? (
               <>
-  <h3 className="text-xl font-semibold">Prediction:</h3>
-  <p
-    className={`text-2xl font-bold ${
-      (selectedType === "lungs" && result.prediction.includes("Malicious")) ||
-      (selectedType === "knee" && result.prediction === "Fake")
-        ? "text-red-500"
-        : "text-green-500"
-    }`}
-  >
-    {result.prediction}
-  </p>
+                <h3 className="text-xl font-semibold">Prediction:</h3>
+                <p
+                  className={`text-2xl font-bold ${
+                    (selectedType === "lungs" && result.prediction.includes("Malicious")) ||
+                    (selectedType === "knee" && result.prediction === "Fake")
+                      ? "text-red-500"
+                      : "text-green-500"
+                  }`}
+                >
+                  {result.prediction}
+                </p>
 
-  <h3 className="text-xl font-semibold">Description:</h3>
-  <p
-    className={`text-2xl font-bold ${
-      (selectedType === "lungs" && result.prediction.includes("Malicious")) ||
-      (selectedType === "knee" && result.prediction === "Fake")
-        ? "text-red-500"
-        : "text-green-500"
-    }`}
-  >
-    {result.description}
-  </p>
+                <h3 className="text-xl font-semibold">Description:</h3>
+                <p
+                  className={`text-2xl font-bold ${
+                    (selectedType === "lungs" && result.prediction.includes("Malicious")) ||
+                    (selectedType === "knee" && result.prediction === "Fake")
+                      ? "text-red-500"
+                      : "text-green-500"
+                  }`}
+                >
+                  {result.description}
+                </p>
 
-  <p className="text-gray-300">
-    Confidence: {(result.confidence * 100).toFixed(2)}%
-  </p>
+                <p className="text-gray-300">
+                  Confidence: {(result.confidence * 100).toFixed(2)}%
+                </p>
 
-  <button
-    onClick={() => setShowPopup(false)}
-    className="mt-6 px-4 py-2 bg-gray-600 text-white font-semibold rounded-md hover:bg-gray-700 shadow-lg transition"
-  >
-    Close
-  </button>
-</>
+                <button
+                  onClick={() => setShowPopup(false)}
+                  className="mt-6 px-4 py-2 bg-gray-600 text-white font-semibold rounded-md hover:bg-gray-700 shadow-lg transition"
+                >
+                  Close
+                </button>
+            </>
 
             ) : (
               <>
