@@ -73,7 +73,7 @@ const MainPage = () => {
             confidence: data.confidence,
           }));
 
-          await fetch("http://localhost:5000/api/image/upload", {
+          await fetch("https://med-verify-backend-database.vercel.app/api/image/upload", {
             method: "POST",
             headers: {
               "Authorization": `Bearer ${token}`,  // only auth header, NO Content-Type here!
