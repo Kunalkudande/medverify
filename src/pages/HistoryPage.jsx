@@ -45,7 +45,7 @@ const HistoryPage = () => {
               className="bg-white rounded-xl shadow-md p-4 flex flex-col items-center"
             >
               <img
-                src={`data:image/jpeg;base64,${item.image_base64}`}
+                src={`data:image/jpeg;base64,${item.imagePath}`}
                 alt="Prediction"
                 className="h-48 object-cover rounded-lg mb-4 border"
               />
