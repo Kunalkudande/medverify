@@ -38,7 +38,6 @@ const MainPage = () => {
     }
 
     const formData = new FormData();
-    console.log(formData)
     formData.append("file", imageFile);
     formData.append("model_type", selectedType); // Send model type
 
@@ -52,7 +51,6 @@ const MainPage = () => {
         method: "POST",
         body: formData,
       });
-      console.log(response)
       if (response.ok) {
         const data = await response.json();
 
