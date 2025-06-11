@@ -15,6 +15,7 @@ const HistoryPage = () => {
           throw new Error("Failed to fetch history");
         }
         const data = await response.json();
+        console.log("Fetched History:", data);
         setHistory(data);
       } catch (err) {
         setError(err.message);
